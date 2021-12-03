@@ -1,8 +1,5 @@
-// ignore_for_file: use_key_in_widget_constructors
-
-import 'dart:html';
-
 import 'package:flutter/material.dart';
+import './screens/products_overview_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,19 +7,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: MyHomePage(),
+      title: 'MyShop',
+      theme: ThemeData(
+        fontFamily: 'Lato',
+        primarySwatch: Colors.purple,
+        accentColor: Colors.deepOrange,
       ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('let\'s build a shop!'),
+      home: Scaffold(
+        body: ProductsOverviewScreen(),
       ),
     );
   }
