@@ -35,7 +35,7 @@ class ProductItem extends StatelessWidget {
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           leading: Consumer<Product>(
-            builder: (context, product, child) => IconButton(
+            builder: (context, product, _) => IconButton(
               color: Theme.of(context).accentColor,
               onPressed: () => product.toggleFavoriteStatus(),
               icon: Icon(
@@ -43,6 +43,7 @@ class ProductItem extends StatelessWidget {
                 color: Theme.of(context).accentColor,
               ),
             ),
+            child: Text('Never Change!'),
           ),
           title: Text(
             product.title,
