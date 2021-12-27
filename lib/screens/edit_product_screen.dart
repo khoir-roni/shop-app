@@ -13,16 +13,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlFocusNode = FocusNode();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    _imageUrlFocusNode.addListener(_updateImageUrl);
-    super.initState();
-  }
+  // void initState() {
+  //   // TODO: implement initState
+  //   _imageUrlFocusNode.addListener(_updateImageUrl);
+  //   super.initState();
+  // }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    // _imageUrlFocusNode.removeListener(_updateImageUrl);
     _priceFocusNode.dispose();
     _descriptionFocusNode.dispose();
     _imageUrlController.dispose();
@@ -30,11 +30,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.dispose();
   }
 
-  void _updateImageUrl() {
-    if (!_imageUrlFocusNode.hasFocus) {
-      setState(() {});
-    }
-  }
+  // void _updateImageUrl() {
+  //   if (!_imageUrlFocusNode.hasFocus) {
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,11 +96,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
                       focusNode: _imageUrlFocusNode,
-                      // onEditingComplete: () {
-                      //   setState(() {
+                      onEditingComplete: () {
+                        setState(() {
                           
-                      //   });
-                      // },
+                        });
+                      },
                     ),
                   )
                 ],
