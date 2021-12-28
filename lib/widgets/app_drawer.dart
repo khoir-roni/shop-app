@@ -19,6 +19,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             },
+            
           ),
           const Divider(),
           ListTile(
