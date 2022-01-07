@@ -19,6 +19,29 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavorites = false;
+  var _isInit = true;
+
+  @override
+  void initState() {
+    // // TODO: implement initState
+    // Provider.of<Products>(context, listen: false)
+    //     .fetchAndSetProduct();
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Products>(context,).fetchAndSetProduct();
+    // });// this won't work need listen false
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isInit) {
+      Provider.of<Products>(context).fetchAndSetProduct();
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     // final productContainer = Provider.of<Products>(context, listen: false);
