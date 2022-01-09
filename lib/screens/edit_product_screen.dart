@@ -94,43 +94,58 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (_editedProduct.id != null) {
-      Provider.of<Products>(context, listen: false)
-          .updateProduct(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .updateProduct(_editedProduct.id, _editedProduct);
+      } catch (error) {
+        await extractShowDialog();
+      }
+      // setState(() {
+      //   _isLoading = false;
+      // });
+      // Navigator.of(context).pop();
+
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
       } catch (error) {
-        await showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('An error occurred !'),
-            content: Text('Something Went wrong.'),
-            actions: [
-              FlatButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Okay'))
-            ],
-          ),
-        );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
+        await extractShowDialog();
       }
+      // finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
     }
     // Navigator.of(context).pop();
     print(_editedProduct.title);
     print(_editedProduct.price);
     print(_editedProduct.description);
     print(_editedProduct.imageUrl);
+
+    setState(() {
+      _isLoading = false; // set back _isloading variable to false
+    });
+    Navigator.of(context).pop(); // move to bottom of method
+  }
+
+  Future<Null> extractShowDialog() {
+    return showDialog<Null>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('An error occurred !'),
+        content: Text('Something Went wrong.'),
+        actions: [
+          FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Okay'))
+        ],
+      ),
+    );
   }
 
   @override
