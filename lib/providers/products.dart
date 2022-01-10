@@ -133,7 +133,7 @@ class Products with ChangeNotifier {
     if (prodIndex >= 0) {
       final url =
           'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
-     await http.patch(url,
+      await http.patch(url,
           body: json.encode(
             {
               'title': newProduct.title,
@@ -150,7 +150,22 @@ class Products with ChangeNotifier {
   }
 
   void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+    final url =
+        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.';
+    final _existingProdDataIndex = _items.indexWhere((prod) => prod.id == id);
+    var _existingProdData = _items[_existingProdDataIndex];
+    http.delete(url).then((response) {
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode >= 400) {}
+      _existingProdData = null;
+    }).catchError((_) {
+      _items.insert(_existingProdDataIndex, _existingProdData);
+      notifyListeners();
+    });
+    _items.removeAt(_existingProdDataIndex);
     notifyListeners();
+
+    // _items.removeWhere((prod) => prod.id == id);
   }
 }
