@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import '../models/http_exception.dart';
 import './product.dart';
 import 'package:http/http.dart' as http;
 
@@ -157,7 +158,9 @@ class Products with ChangeNotifier {
     http.delete(url).then((response) {
       print(response.statusCode);
       print(response.body);
-      if (response.statusCode >= 400) {}
+      if (response.statusCode >= 400) {
+        throw HttpException('Could not delete the product!');
+      }
       _existingProdData = null;
     }).catchError((_) {
       _items.insert(_existingProdDataIndex, _existingProdData);
