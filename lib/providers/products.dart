@@ -150,24 +150,27 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
+  Future<void> deleteProduct(String id) async {
     final url =
-        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.';
+        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
     final _existingProdDataIndex = _items.indexWhere((prod) => prod.id == id);
     var _existingProdData = _items[_existingProdDataIndex];
-    http.delete(url).then((response) {
-      print(response.statusCode);
-      print(response.body);
-      if (response.statusCode >= 400) {
-        throw HttpException('Could not delete the product!');
-      }
-      _existingProdData = null;
-    }).catchError((_) {
-      _items.insert(_existingProdDataIndex, _existingProdData);
-      notifyListeners();
-    });
     _items.removeAt(_existingProdDataIndex);
     notifyListeners();
+
+    final response = await http.delete(url);
+    // .then((response) {
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode >= 400) {
+      _items.insert(_existingProdDataIndex, _existingProdData);
+      notifyListeners();
+      throw HttpException('Could not delete the product!');
+    }
+    _existingProdData = null;
+    // })
+    // .catchError((_) {
+    // });
 
     // _items.removeWhere((prod) => prod.id == id);
   }
