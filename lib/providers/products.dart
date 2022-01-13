@@ -73,10 +73,13 @@ class Products with ChangeNotifier {
         'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products.json';
     try {
       final response = await http.get(url);
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Product> loadedProducts = [];
 
+      final List<Product> loadedProducts = [];
+      if (extractedData == null) {
+        return;
+      }
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(Product(
           id: prodId,
@@ -107,7 +110,7 @@ class Products with ChangeNotifier {
             'isFavorite': product.isFavorite,
           }));
       // .then((response) {
-      print(json.decode(response.body));
+      // print(json.decode(response.body));
       final newProduct = Product(
         id: json.decode(response.body)['name'],
         title: product.title,
@@ -118,7 +121,7 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       notifyListeners();
     } catch (error) {
-      print(error);
+      // print(error);
       rethrow;
     }
 
@@ -160,8 +163,8 @@ class Products with ChangeNotifier {
 
     final response = await http.delete(url);
     // .then((response) {
-    print(response.statusCode);
-    print(response.body);
+    // print(response.statusCode);
+    // print(response.body);
     if (response.statusCode >= 400) {
       _items.insert(_existingProdDataIndex, _existingProdData);
       notifyListeners();

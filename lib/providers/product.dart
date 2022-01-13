@@ -43,7 +43,7 @@ class Product with ChangeNotifier {
       }
     } catch (e) {
       setFav(oldStatus);
-      print(e);
+      // print(e);
       rethrow;
     }
   }

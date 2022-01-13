@@ -120,10 +120,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
       // }
     }
     // Navigator.of(context).pop();
-    print(_editedProduct.title);
-    print(_editedProduct.price);
-    print(_editedProduct.description);
-    print(_editedProduct.imageUrl);
+    // print(_editedProduct.title);
+    // print(_editedProduct.price);
+    // print(_editedProduct.description);
+    // print(_editedProduct.imageUrl);
 
     setState(() {
       _isLoading = false; // set back _isloading variable to false

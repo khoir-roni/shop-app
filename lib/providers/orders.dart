@@ -9,14 +9,14 @@ import './cart.dart';
 class OrderItem {
   final String id;
   final double amount;
-  final List<CartItem> products;
   final DateTime dateTime;
+  final List<CartItem> products;
 
   OrderItem({
     @required this.id,
     @required this.amount,
-    @required this.products,
     @required this.dateTime,
+    @required this.products,
   });
 }
 
@@ -24,6 +24,35 @@ class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
   List<OrderItem> get orders {
     return [..._orders];
+  }
+
+  Future<void> fetchAndSetOrder() async {
+    const url =
+        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json';
+    final response = await http.get(url);
+    // print(json.decode(response.body));
+    final List<OrderItem> loadedOrders =
+        []; // variabel untuk penyimpanan sementara
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    if (extractedData == null) {
+      return;
+    }
+    extractedData.forEach((orderId, orderData) {
+      loadedOrders.add(OrderItem(
+        id: orderId,
+        amount: orderData['amount'],
+        dateTime: DateTime.parse(orderData['dateTime']),
+        products: (orderData['products'] as List<dynamic>)
+            .map((item) => CartItem(
+                id: item['id'],
+                title: item['title'],
+                price: item['price'],
+                quantity: item['quantity']))
+            .toList(),
+      ));
+    });
+    _orders = loadedOrders.reversed.toList();
+    notifyListeners();
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
