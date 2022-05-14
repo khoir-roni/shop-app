@@ -41,7 +41,9 @@ class Products with ChangeNotifier {
     // ),
   ];
 
-  var _showFavoriteOnly = false;
+  // var _showFavoriteOnly = false;
+  final String authToken;
+  Products(this.authToken, this._items);
 
   List<Product> get items {
     // if (_showFavoriteOnly) {
@@ -49,6 +51,7 @@ class Products with ChangeNotifier {
     // }
     return [..._items];
   }
+
 
   List<Product> get favoritesItems {
     return _items.where((prodItem) => prodItem.isFavorite).toList();
@@ -69,8 +72,8 @@ class Products with ChangeNotifier {
   // }
 
   Future<void> fetchAndSetProduct() async {
-    const url =
-        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products.json';
+    final url =
+        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       // print(json.decode(response.body));
@@ -98,8 +101,8 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    const url =
-        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products.json';
+    final url =
+        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=$authToken';
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -136,7 +139,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url =
-          'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
+          'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json?auth=$authToken';
       await http.patch(url,
           body: json.encode(
             {
@@ -149,13 +152,13 @@ class Products with ChangeNotifier {
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
-      print('...');
+      // print('...');
     }
   }
 
   Future<void> deleteProduct(String id) async {
     final url =
-        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
+        'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json?auth=$authToken';
     final _existingProdDataIndex = _items.indexWhere((prod) => prod.id == id);
     var _existingProdData = _items[_existingProdDataIndex];
     _items.removeAt(_existingProdDataIndex);
