@@ -31,11 +31,9 @@ class Product with ChangeNotifier {
     final url =
         'https://shop-app-f4326-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId/$id.json?auth=$token';
     try {
-      final response = await http.patch(url,
+      final response = await http.put(url,
           body: json.encode(
-            {
-              'isFavorite': isFavorite,
-            },
+            isFavorite,
           ));
       if (response.statusCode >= 400) {
         setFav(oldStatus);
