@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import './providers/auth.dart';
 import './screens/auth_screen.dart';
 
-import '../screens/edit_product_screen.dart';
-import '../screens/orders_screen.dart';
+import './screens/splash_screen.dart';
+import './screens/edit_product_screen.dart';
+import './screens/orders_screen.dart';
 import './providers/orders.dart';
 import './screens/cart_screen.dart';
 import './screens/product_detail_screen.dart';
@@ -66,7 +67,16 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
                 .copyWith(secondary: Colors.deepOrange),
           ),
-          home: auth.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductsOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ), // checking are we authenticated? if yes, show product overview scree; if not, future builder try auto login ;while we're waiting for result, show splash screen if we're done waiting, show the authScreen
           routes: {
             ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
             CartScreen.routeName: (context) => CartScreen(),
