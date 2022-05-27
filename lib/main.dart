@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
                           ? SplashScreen()
                           : AuthScreen(),
                 ), // checking are we authenticated? if yes, show product overview scree; if not, future builder try auto login ;while we're waiting for result, show splash screen if we're done waiting, show the authScreen
+          // initialRoute: '/',
           routes: {
             ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
             CartScreen.routeName: (context) => CartScreen(),
