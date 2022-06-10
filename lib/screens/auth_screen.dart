@@ -133,7 +133,7 @@ class _AuthCardState extends State<AuthCard>
     //     curve: Curves.linear,
     //   ),
     // );
-      _slideAnimation = Tween<Offset>(
+    _slideAnimation = Tween<Offset>(
       begin: Offset(0, -1.5),
       end: Offset(0, 0),
     ).animate(
@@ -278,7 +278,7 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 // if (_authMode == AuthMode.signUp)
                 AnimatedContainer(
-                  duration: Duration(microseconds: 300),
+                  duration: const Duration(microseconds: 300),
                   constraints: BoxConstraints(
                     minHeight: _authMode == AuthMode.signUp ? 60 : 0,
                     maxHeight: _authMode == AuthMode.signUp ? 120 : 0,
